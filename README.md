@@ -9,224 +9,125 @@ This project analyzes 1,000 manufacturing records using Excel to evaluate produc
 Excel
 
 ## Project Workflow :
-## Day 1 – Dataset Setup and Excel Table Creation
-Used Excel's duplicate-removal/checking functionality on `Record_ID`.
-Confirmed that there were no duplicate Record_ID values in the dataset.
-Used the column filters to work with the different manufacturing fields.
-Confirmed that the numerical columns were available for calculations, including Planned Quantity, Produced Quantity, Good Quantity, Defect Quantity, Scrap Quantity, Downtime, Cycle Time, Temperature, Vibration, Energy Consumption, Raw Material Cost, Labour Hours, Maintenance Days, and Revenue.
-Kept the original source columns unchanged and prepared additional columns on the right side of the table for calculated metrics.
-
-## Day 2 – Creating Production and Quality Calculated Columns
-Added a new column named `Production_Achievement_%`.
-In the first data row, entered:
+## Project Workflow
+## Day 1 – Data Preparation and KPI Calculations
+Opened `Manufacturing_Data_Analytics_1000_Records.xlsx` in Microsoft Excel.
+Selected the complete dataset containing 1,000 manufacturing records.
+Pressed `Ctrl + T` to convert the dataset into an Excel Table.
+Enabled `My table has headers`.
+Opened the `Table Design` tab and renamed the table to `Manufacturing_Data`.
+Used `Record_ID` to identify duplicate records and confirmed that there were no duplicate values.
+Created the calculated columns from `AA` onwards.
+Created `Production_Achievement_%` and entered:
 `=K2/J2`
-This divided Produced Quantity by Planned Quantity.
-Pressed Enter and filled the formula down through all 1,000 records.
-Added `Defect_Rate_%`.
-Entered:
+Filled the formula down to all records.
+Created `Defect_Rate_%`:
 `=M2/K2`
-This calculated Defect Quantity as a percentage of Produced Quantity.
-Filled the formula down.
-Added `Scrap_Rate_%`.
-Entered:
+Created `Scrap_Rate_%`:
 `=N2/K2`
-Filled the formula down.
-Added `Good_Rate_%`.
-Entered:
+Created `Good_Rate_%`:
 `=L2/K2`
-Filled the formula down.
-Selected the percentage columns and used Excel's Percentage formatting.
-Adjusted the percentage display to show the required decimal places.
-Added `Downtime_Hours`.
-Entered:
+Filled each formula down through the dataset.
+Created `Downtime_Hours`:
 `=O2/60`
-This converted Downtime Minutes into Downtime Hours.
-Filled the formula down through the dataset.
-
-## Day 3 – Production Time, Operating Time and Availability
-Added `Production_Time_Hours`.
-Entered:
-`=(K2*R2)/3600`
-This used Produced Quantity and Actual Cycle Time to calculate production time in hours.
-Filled the formula down.
-Added `Planned_Production_Time`.
-Entered:
-`=(J2*Q2)/3600`
-This used Planned Quantity and Ideal Cycle Time to calculate the planned production time.
-Filled the formula down.
-Added `Operating_Time_Hours`.
-Entered:
-`=MAX(0,AI2-AE2)`
-This calculated operating time by subtracting downtime hours from planned production time.
-The `MAX(0,...)` portion prevented negative operating-time values.
-Filled the formula down.
-Created the `Availability_%` column.
-Entered:
-`=IFERROR(AH2/AI2,0)`
-This divided Operating Time by Planned Production Time.
-Used `IFERROR` so that an error would return 0 instead of displaying an Excel error.
-Filled the formula down.
-Formatted Availability as a percentage.
-
-## Day 4 – Actual Production Rate, Performance and OEE
-Created `Actual_Production_Rate`.
-Entered:
+Created `Actual_Production_Rate`:
 `=IFERROR(3600/R2,0)`
-This calculated the production rate from Actual Cycle Time.
-Filled the formula down.
-Created `Ideal_Production_Rate`.
-Entered:
+Created `Production_Time_Hours`:
+`=(K2*R2)/3600`
+Created `Planned_Production_Time`:
+`=(J2*Q2)/3600`
+Created `Operating_Time_Hours`:
+`=MAX(0,AI2-AE2)`
+Created `Availability_%`:
+`=IFERROR(AH2/AI2,0)`
+Created `Ideal_Production_Rate`:
 `=IFERROR(3600/Q2,0)`
-This calculated the ideal production rate from Ideal Cycle Time.
-Filled the formula down.
-Created `Performance_%`.
-Entered:
+Created `Performance_%`:
 `=IFERROR(AF2/AK2,0)`
-This compared Actual Production Rate with Ideal Production Rate.
-Filled the formula down.
-Created `Quality_%`.
-Entered:
+Created `Quality_%`:
 `=IFERROR(L2/K2,0)`
-This calculated the proportion of produced units that were good units.
-Filled the formula down.
-Created `OEE_%`.
-Entered:
+Created `OEE_%`:
 `=AJ2*AL2*AM2`
-This multiplied Availability, Performance, and Quality.
-Filled the formula down.
-Formatted Availability, Performance, Quality, and OEE as percentages.
-Selected the calculated columns and adjusted the decimal formatting so the percentages were displayed consistently.
+Filled all calculated formulas down to the final record.
+Selected the percentage columns and applied Percentage formatting with the required decimal places.
 
-## Day 5 – Production Analysis Using PivotTables
+## Day 2 – Production, Downtime, OEE and Quality Analysis
 Selected a cell inside the `Manufacturing_Data` table.
-Went to:
-`Insert → PivotTable`
-Selected the `Manufacturing_Data` table as the source.
-Created a new worksheet for the PivotTable.
-For Production Achievement by Production Line:
-Dragged `Production_Line` into the `Rows` area.
-Dragged `Production_Achievement_%` into the `Values` area.
-Opened the Values field settings.
-Changed the calculation from Sum to Average.
-Formatted the resulting values as percentages.
-Used the PivotTable results to compare the production achievement of each production line.
-Repeated the PivotTable process for Machine performance.
-Placed `Machine_ID` in `Rows`.
-Placed `Production_Achievement_%` in `Values`.
-Changed the Values calculation to Average.
-Used the results to compare production achievement between machines.
-Created a production-output PivotTable.
-Placed `Product_Type` in `Rows`.
-Placed `Produced_Quantity` in `Values`.
-Kept the calculation as Sum.
-Created another production-output PivotTable using `Shift` in Rows and `Produced_Quantity` in Values.
-Used these PivotTables to compare production output across products and shifts.
-
-## Day 6 – Downtime and Cycle-Time Analysis
-Created a PivotTable for machine downtime.
-Placed `Machine_ID` in the `Rows` area.
-Placed `Downtime_Hours` in the `Values` area.
-Kept the Values calculation as Sum.
-Formatted the downtime values to display two decimal places.
-Sorted the machine downtime values to identify the machines contributing the most downtime.
-Created another PivotTable using `Production_Line` in Rows and `Downtime_Hours` in Values.
-Created another using `Shift` in Rows and `Downtime_Hours` in Values.
-Created another using `Downtime_Reason` in Rows and `Downtime_Hours` in Values.
-Used Sum of Downtime Hours for each of these analyses.
-Compared Ideal Cycle Time and Actual Cycle Time by machine.
-Created a PivotTable with `Machine_ID` in Rows.
-Added `Ideal_Cycle_Time_Sec` to Values.
-Added `Actual_Cycle_Time_Sec` to Values.
-Changed both Value calculations to Average.
-Compared the two cycle-time columns to identify machines where actual cycle time was higher than ideal cycle time.
-Applied Conditional Formatting to the `Downtime_Hours` column.
-Used a color scale to make higher downtime values visually easier to identify.
-
-## Day 7 – Quality, Maintenance and Risk Analysis
-Created PivotTables for quality analysis.
-For defect rate by machine:
+Went to `Insert → PivotTable`.
+Created PivotTables to analyze production performance.
+For Production Achievement by Production Line, placed `Production_Line` in the `Rows` area and `Production_Achievement_%` in the `Values` area.
+Opened `Value Field Settings` and changed the calculation from `Sum` to `Average`.
+Formatted the result as a percentage.
+Repeated the same process using `Machine_ID` in Rows to compare production achievement by machine.
+Created a production-output PivotTable by placing `Product_Type` in Rows and `Produced_Quantity` in Values.
+Kept `Produced_Quantity` as `Sum`.
+Created another PivotTable using `Shift` in Rows and `Produced_Quantity` in Values.
+Created the machine downtime PivotTable by placing `Machine_ID` in Rows and `Downtime_Hours` in Values.
+Kept `Downtime_Hours` as `Sum`.
+Created additional downtime PivotTables using `Production_Line`, `Shift`, and `Downtime_Reason` in Rows.
+Created a cycle-time PivotTable.
 Placed `Machine_ID` in Rows.
-Placed `Defect_Rate_%` in Values.
-Changed the calculation to Average.
-Formatted the result as a percentage.
-For quality by product:
-Placed `Product_Type` in Rows.
-Placed `Quality_%` in Values.
-Changed the calculation to Average.
-Formatted the result as a percentage.
-Created quality comparisons by Production Line and Shift using the same PivotTable method.
-Applied Conditional Formatting to `Defect_Rate_%`.
-Used a color scale so higher defect-rate records could be identified visually.
-Created the `Maintenance_Risk` column.
-Used maintenance age, downtime, machine temperature, and machine vibration as the risk conditions.
-Entered the following formula:
+Placed `Ideal_Cycle_Time_Sec` and `Actual_Cycle_Time_Sec` in Values.
+Changed both fields to `Average`.
+Compared actual cycle time against ideal cycle time for each machine.
+Created OEE analysis by placing `Production_Line` in Rows and `OEE_%` in Values.
+Changed OEE to `Average`.
+Formatted OEE as a percentage.
+Created quality PivotTables using `Machine_ID`, `Product_Type`, `Production_Line`, and `Shift`.
+Used `Defect_Rate_%` and `Quality_%` as Values and changed the calculations to `Average`.
+Applied Conditional Formatting to `Defect_Rate_%` using a color scale to make higher defect rates easier to identify.
+Applied Conditional Formatting to `Downtime_Hours` using a color scale to identify higher downtime records.
+
+## Day 3 – Maintenance, Risk, Cost, Profit and Trend Analysis
+Created the `Maintenance_Risk` calculated column.
+Entered:
 `=IF((Y2>25)+(O2>25)+(S2>73)+(T2>2)>=3,"High",IF((Y2>25)+(O2>25)+(S2>73)+(T2>2)=2,"Medium","Low"))`
-Filled the formula down through all records.
-This classified each record as High, Medium, or Low maintenance risk.
+Filled the formula down.
 Created a PivotTable for Maintenance Risk.
 Placed `Machine_ID` in Rows.
 Placed `Maintenance_Risk` in Columns.
 Placed `Record_ID` in Values.
-Changed Record_ID from Sum to Count.
-This produced the number of High, Medium, and Low risk records for each machine.
-
-## Day 8 – Cost, Profit and Anomaly Analysis
-Created `Production_Cost`.
-Used the available Raw Material Cost because the dataset did not contain a separate labour-cost rate.
-Entered:
-`=V2`
-Filled the formula down.
-Created `Cost_Per_Unit`.
-Entered:
-`=IFERROR(AP2/K2,0)`
-Filled the formula down.
-Created `Profit`.
-Entered:
-`=Z2-AP2`
-Filled the formula down.
-Created `Profit_Per_Unit`.
-Entered:
-`=IFERROR(AR2/K2,0)`
-Filled the formula down.
-Created `Scrap_Cost`.
-Entered:
-`=IFERROR(N2*AQ2,0)`
-Filled the formula down.
-Applied Conditional Formatting to the cost columns to visually identify higher-cost records.
-Created PivotTables for Scrap Cost by Machine, Production Line, and Product Type.
-Used `Scrap_Cost` as the Values field and kept the calculation as Sum.
-Created PivotTables for Profit by Machine, Production Line, and Product Type.
-Used `Profit` as the Values field and kept the calculation as Sum.
-Created a Cost Per Unit PivotTable by Machine.
-Placed `Machine_ID` in Rows.
-Placed `Cost_Per_Unit` in Values.
-Changed the calculation to Average.
+Changed `Record_ID` from `Sum` to `Count`.
+This produced High, Medium, and Low maintenance-risk record counts for every machine.
 Created the `Anomaly_Flag` column.
 Entered:
 `=IF(AN2<70%,"Critical",IF(AN2<85%,"Warning","Normal"))`
 Filled the formula down.
-This classified OEE records into Critical, Warning, and Normal categories.
+Created PivotTables to analyze maintenance status against downtime, defect rate, and OEE.
+Created `Production_Cost` using the available Raw Material Cost field.
+Entered:
+`=V2`
+Created `Cost_Per_Unit`:
+`=IFERROR(AP2/K2,0)`
+Created `Profit`:
+`=Z2-AP2`
+Created `Profit_Per_Unit`:
+`=IFERROR(AR2/K2,0)`
+Created `Scrap_Cost`:
+`=IFERROR(N2*AQ2,0)`
+Filled all formulas down.
+Applied Conditional Formatting to the cost-related columns.
+Created PivotTables for Scrap Cost by Machine, Production Line, and Product Type.
+Used `Scrap_Cost` in Values and kept the calculation as `Sum`.
+Created PivotTables for Profit by Machine, Production Line, and Product Type.
+Used `Profit` in Values and kept the calculation as `Sum`.
+Created a Cost Per Unit PivotTable by placing `Machine_ID` in Rows and `Cost_Per_Unit` in Values.
+Changed Cost Per Unit to `Average`.
+Created monthly trend PivotTables using `Production_Date`.
+Placed `Production_Date` in Rows and `Produced_Quantity` in Values.
+Used Excel's date grouping option to group Production_Date by Months and Years.
+Created similar monthly PivotTables for Downtime Hours and OEE.
+For OEE, changed the Values calculation to `Average` and formatted it as a percentage.
+Used the monthly PivotTables to compare production, downtime, and OEE from January to June 2026.
 
-## Day 9 – Monthly Trends and Dashboard Creation
-Created monthly production analysis using the existing `Production_Date` field.
-Created a PivotTable with:
-`Production_Date → Rows`
-`Produced_Quantity → Values`
-Changed the date field to group the records by Months and Years.
-Used Sum of Produced Quantity for the monthly production values.
-Created a monthly downtime PivotTable using:
-`Production_Date → Rows`
-`Downtime_Hours → Values`
-Grouped the date field by Months and Years.
-Created a monthly OEE PivotTable using:
-`Production_Date → Rows`
-`OEE_% → Values`
-Changed OEE to Average.
-Formatted the OEE values as percentages.
-Created the `Operations Dashboard`.
-Used PivotTables and PivotCharts to display production-line, product, downtime, shift, cycle-time, and OEE analysis.
-Created the `Quality & Cost Dashboard`.
-Added KPI values for:
+## Day 4 – Dashboard Creation, Slicers and Finalization
+Created three dashboard worksheets:
+`Operations Dashboard`
+`Quality & Cost Dashboard`
+`Management Dashboard`
+For the Operations Dashboard, created PivotCharts from the analysis PivotTables.
+Created charts for production by Production Line and Product Type, along with the required operational analysis charts.
+For the Quality & Cost Dashboard, created KPI cards for:
 Total Defect Rate
 Total Scrap Rate
 Average Quality
@@ -239,76 +140,41 @@ Scrap Cost by Machine
 Quality by Product
 Profit by Production Line
 Cost Per Unit by Machine
-
-## Day 10 – Management Dashboard, Slicers and Finalization
-Created the `Management Dashboard` worksheet.
-Merged cells `A1:F1` for the dashboard title.
-Entered:
-`MANAGEMENT DASHBOARD`
-Formatted the title using bold white text and a dark background.
-Created eight KPI cards.
-Added Total Production.
-Added Production Achievement %.
-Added OEE %.
-Added Defect Rate %.
-Added Scrap Cost.
-Added Downtime Hours.
-Added Revenue.
-Added Profit.
-Created the following Management Dashboard PivotCharts:
+Created the Management Dashboard.
+Merged `A1:F1` for the dashboard title and entered `MANAGEMENT DASHBOARD`.
+Created eight KPI cards:
+Total Production — 692,181
+Production Achievement — 93.52%
+OEE — 86.36%
+Defect Rate — 6.49%
+Scrap Cost — ₹3,01,043.70
+Downtime Hours — 420.95
+Revenue — ₹25,038,055.78
+Profit — ₹9,355,415.61
+Created the seven Management Dashboard charts:
 `Production Trend`
-Used Production_Date in Rows and Produced_Quantity in Values.
-Grouped Production_Date by Months and Years.
-Changed the chart type to Line.
-Set the chart title to `Production Trend`.
 `OEE by Line`
-Placed Production_Line in Rows.
-Placed OEE_% in Values.
-Changed the calculation to Average.
-Formatted the values as percentages.
-Created a Clustered Column chart titled `OEE by Line`.
 `Downtime by Machine`
-Placed Machine_ID in Rows.
-Placed Downtime_Hours in Values.
-Used Sum.
-Created a Clustered Bar chart titled `Downtime by Machine`.
 `Defect Rate by Product`
-Placed Product_Type in Rows.
-Placed Defect_Rate_% in Values.
-Changed the calculation to Average.
-Created a Clustered Column chart titled `Defect Rate by Product`.
 `Scrap Cost by Line`
-Placed Production_Line in Rows.
-Placed Scrap_Cost in Values.
-Used Sum.
-Formatted the values as Indian Rupee currency.
-Created a Clustered Column chart titled `Scrap Cost by Line`.
 `Production by Shift`
-Placed Shift in Rows.
-Placed Produced_Quantity in Values.
-Used Sum.
-Formatted the values with comma separators.
-Created a Clustered Column chart titled `Production by Shift`.
 `Maintenance Risk`
-Placed Machine_ID in Rows.
-Placed Maintenance_Risk in Columns.
-Placed Record_ID in Values.
-Changed Record_ID from Sum to Count.
-Created a Clustered Column chart titled `Maintenance Risk`.
-Added five slicers to make the dashboard interactive.
+For each chart, created or used the corresponding PivotTable, selected the required Rows and Values fields, selected the appropriate chart type, and entered the final chart title.
+Added five slicers.
 Added the grouped `Months (Production_Date)` field as a slicer and renamed it `Month`.
 Added `Production_Line` as a slicer and renamed it `Production Line`.
 Added `Machine_ID` as a slicer and renamed it `Machine`.
 Added `Shift` as a slicer and renamed it `Shift`.
 Added `Product_Type` as a slicer and renamed it `Product Type`.
-Used the PivotTable connection settings to connect the slicers to the relevant PivotTables.
-Formatted the dashboards by adjusting chart positions, titles, spacing, number formats, percentage formats, and currency formats.
-Adjusted PivotTable settings so column widths would not automatically change after updates.
-Prepare the final business insights and conclusions from the completed analysis.
-Prepared recommendations based on machine reliability, production-line performance, downtime, quality, maintenance risk, shift performance, and scrap cost.
+Used `Report Connections` to connect the slicers to the relevant PivotTables.
+Formatted the dashboard charts and KPI cards.
+Applied comma formatting to production quantities.
+Applied percentage formatting to production achievement, OEE, defect rate, quality, and related KPIs.
+Applied Indian Rupee formatting to revenue, profit, scrap cost, and other monetary values.
+Adjusted PivotTable settings so column widths would not automatically resize after updates.
 Created the `AI_Usage_Log` worksheet.
-Recorded the AI tool used, prompts, purpose, AI output summary, Excel validation, and final decision for the AI-assisted parts of the project.
-
+Recorded the AI tool, prompt, purpose, AI output summary, Excel validation, and final decision for the AI-assisted analysis.
+Prepared the final business insights, conclusions, and recommendations based on the completed Excel analysis.
 
 ## Analysis :
 Data cleaning and validation
@@ -344,5 +210,7 @@ M303 showed unusually high maintenance risk, with 52 high-risk records out of 59
 Monthly OEE remained relatively stable, ranging from 85.82% to 86.70%.
 The analysis identified machine reliability, downtime, quality losses, and shift performance as key areas for improvement.
 
+## Author
+Sriram Aditya
 ## Author
 Sriram Aditya
