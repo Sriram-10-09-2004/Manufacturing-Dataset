@@ -3,7 +3,7 @@
 Manufacturing Dataset
 
 ## Project Overview :
-This project analyzes 1,000 manufacturing records using Excel to evaluate production, efficiency, quality, downtime, maintenance, costs, revenue, and profit. It includes data analysis, KPI calculations, PivotTables, charts, slicers, and interactive dashboards to identify operational trends, performance issues, and areas for improvement.
+This project analyzes 1,000 manufacturing records using Microsoft Excel to evaluate production performance, efficiency, quality, downtime, maintenance, costs, revenue, and profit. The project uses Excel formulas and calculated KPIs such as Production Achievement, Availability, Performance, Quality, and OEE, along with PivotTables and PivotCharts to analyze machines, production lines, products, shifts, downtime, maintenance risks, and financial performance. The results are presented through three interactive dashboards with slicers for Month, Production Line, Machine, Shift, and Product Type, helping identify important trends, operational issues, and areas for improvement.
 
 ## Tools :
 Excel
