@@ -9,7 +9,6 @@ This project analyzes 1,000 manufacturing records using Excel to evaluate produc
 Excel
 
 ## Project Workflow :
-## Project Workflow
 ## Day 1 – Data Preparation and KPI Calculations
 Opened `Manufacturing_Data_Analytics_1000_Records.xlsx` in Microsoft Excel.
 Selected the complete dataset containing 1,000 manufacturing records.
