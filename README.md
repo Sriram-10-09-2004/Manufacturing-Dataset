@@ -211,5 +211,3 @@ The analysis identified machine reliability, downtime, quality losses, and shift
 
 ## Author
 Sriram Aditya
-## Author
-Sriram Aditya
